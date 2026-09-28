@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Progres OKR Tracker</title>
+<style>
+:root {
+  --bg: #f6f7f9; --card: #ffffff; --ink: #14181f; --muted: #5d6675; --faint: #8b93a1; --line: #e3e6eb;
+  --accent: #b45309; --accent-soft: #fef3c7;
+  --ok: #15803d; --ok-soft: #dcfce7; --run: #1d4ed8; --run-soft: #dbeafe;
+  --todo: #525c6b; --todo-soft: #eef0f3; --block: #b91c1c; --block-soft: #fee2e2;
+  --ask: #7c3aed; --ask-soft: #ede9fe; --warn: #92400e; --warn-soft: #fef3c7;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1216; --card: #171b21; --ink: #e8ebf0; --muted: #a3acba; --faint: #7a8494; --line: #2a303a;
+    --accent: #f59e0b; --accent-soft: #3a2a0c;
+    --ok: #4ade80; --ok-soft: #12301d; --run: #7aa7ff; --run-soft: #172745;
+    --todo: #b3bcc9; --todo-soft: #232933; --block: #f87171; --block-soft: #3a1717;
+    --ask: #b79cff; --ask-soft: #2a2145; --warn: #fbbf24; --warn-soft: #3a2a0c;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+.wrap { max-width: 1040px; margin: 0 auto; padding: 28px 16px 64px; }
+header.top { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; justify-content: space-between; margin-bottom: 18px; }
+h1 { font-size: 26px; line-height: 1.2; margin: 0; letter-spacing: -0.01em; }
+.sub { color: var(--muted); margin: 4px 0 0; }
+.updated { font-size: 13px; color: var(--muted); text-align: right; }
+.updated b { color: var(--ink); }
+.stale { display: none; margin-top: 6px; font-size: 12.5px; background: var(--warn-soft); color: var(--warn); padding: 4px 10px; border-radius: 8px; }
+.release { border: 1px solid var(--line); background: var(--card); border-left: 4px solid var(--accent); border-radius: 12px; padding: 12px 16px; margin-bottom: 18px; }
+.release b { color: var(--accent); }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 18px; }
+.kpi .label { font-size: 12.5px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+.kpi .num { font-size: 30px; font-weight: 750; margin: 4px 0 2px; font-variant-numeric: tabular-nums; }
+.kpi .num small { font-size: 16px; color: var(--faint); font-weight: 600; }
+.kpi .note { font-size: 13px; color: var(--muted); }
+.dots { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 8px; }
+.dot { width: 14px; height: 14px; border-radius: 4px; background: var(--todo-soft); border: 1px solid var(--line); }
+.dot.selesai-dev { background: var(--ok); border-color: var(--ok); }
+.dot.berjalan { background: var(--run); border-color: var(--run); }
+.dot.terhambat { background: var(--block); border-color: var(--block); }
+.pct-note { font-size: 13px; color: var(--muted); margin: -8px 0 18px; }
+.two { display: grid; grid-template-columns: 1.2fr 1fr; gap: 12px; margin-bottom: 18px; }
+h2 { font-size: 17px; margin: 0 0 10px; }
+.summary { font-size: 16px; margin: 0 0 18px; }
+ul.clean { margin: 0; padding-left: 20px; }
+ul.clean li { margin: 4px 0; }
+.now h2 span { font-size: 12px; font-weight: 600; color: var(--run); background: var(--run-soft); padding: 2px 8px; border-radius: 999px; margin-left: 6px; vertical-align: 2px; }
+.ask li::marker { color: var(--ask); }
+.filters { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 12px; }
+.filters button { font: inherit; font-size: 13px; border: 1px solid var(--line); background: var(--card); color: var(--muted); padding: 5px 12px; border-radius: 999px; cursor: pointer; }
+.filters button[aria-pressed="true"] { background: var(--ink); color: var(--card); border-color: var(--ink); }
+.mods { display: grid; gap: 8px; }
+details.mod { background: var(--card); border: 1px solid var(--line); border-radius: 12px; }
+details.mod summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 70px 1fr auto; gap: 12px; align-items: center; padding: 12px 16px; }
+details.mod summary::-webkit-details-marker { display: none; }
+.code { font-size: 12px; font-weight: 700; color: var(--faint); }
+.mname { font-weight: 650; }
+.mname small { display: block; font-weight: 400; color: var(--muted); font-size: 13px; }
+.badge { font-size: 12px; font-weight: 650; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
+.b-selesai-dev { background: var(--ok-soft); color: var(--ok); }
+.b-berjalan { background: var(--run-soft); color: var(--run); }
+.b-belum { background: var(--todo-soft); color: var(--todo); }
+.b-terhambat { background: var(--block-soft); color: var(--block); }
+.b-scope { background: var(--ask-soft); color: var(--ask); margin-left: 6px; }
+.mbody { padding: 0 16px 16px 98px; color: var(--muted); font-size: 14px; }
+.mbody p { margin: 0 0 6px; }
+.shots { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.shots figure { margin: 0; width: 240px; }
+.shots img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; border: 1px solid var(--line); border-radius: 8px; display: block; cursor: zoom-in; background: #fff; }
+.shots figcaption { font-size: 12px; color: var(--faint); margin-top: 4px; }
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+.gallery figure { margin: 0; }
+.gallery img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; border: 1px solid var(--line); border-radius: 10px; display: block; cursor: zoom-in; background: #fff; }
+.gallery figcaption { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+.section { margin: 26px 0 0; }
+.legend { font-size: 13px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 14px; margin-top: 8px; }
+footer { margin-top: 36px; font-size: 12.5px; color: var(--faint); border-top: 1px solid var(--line); padding-top: 14px; }
+dialog { border: none; padding: 0; max-width: 96vw; max-height: 92vh; background: transparent; }
+dialog img { max-width: 96vw; max-height: 88vh; border-radius: 10px; display: block; }
+dialog::backdrop { background: rgba(0,0,0,.7); }
+@media (max-width: 760px) {
+  .grid3, .two { grid-template-columns: 1fr; }
+  details.mod summary { grid-template-columns: 1fr auto; }
+  .code { display: none; }
+  .mbody { padding: 0 16px 16px; }
+  .updated { text-align: left; }
+  .shots figure { width: 100%; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1 id="proyek">Progres</h1>
+      <p class="sub">Laporan progres untuk user dan atasan · bahasa non-teknis</p>
+    </div>
+    <div class="updated">Pembaruan terakhir: <b id="updated"></b><br><span id="by"></span>
+      <div class="stale" id="stale"></div>
+    </div>
+  </header>
+
+  <div class="release" id="release"></div>
+  <p class="summary" id="ringkasan"></p>
+
+  <div class="grid3">
+    <div class="card kpi"><div class="label">Target v1</div><div class="num" id="k-v1"></div><div class="note" id="k-v1n"></div><div class="dots" id="d-v1"></div></div>
+    <div class="card kpi"><div class="label">Target lengkap</div><div class="num" id="k-all"></div><div class="note" id="k-alln"></div><div class="dots" id="d-all"></div></div>
+    <div class="card kpi"><div class="label">Perlu keputusan</div><div class="num" id="k-ask"></div><div class="note">keputusan dari user/manajemen yang ditunggu</div></div>
+  </div>
+  <p class="pct-note" id="pct"></p>
+
+  <div class="two">
+    <div class="card now"><h2>Sedang dikerjakan <span>aktif</span></h2><p id="now-t" style="margin:0 0 4px;font-weight:650"></p><p id="now-d" style="margin:0;color:var(--muted)"></p></div>
+    <div class="card"><h2>Keputusan yang dibutuhkan</h2><ul class="clean ask" id="ask"></ul></div>
+  </div>
+
+  <div class="two">
+    <div class="card"><h2>Yang sudah bisa dilakukan <small style="font-weight:400;color:var(--faint)">(di lingkungan pengembangan)</small></h2><ul class="clean" id="bisa"></ul></div>
+    <div class="card"><h2>Kendala</h2><ul class="clean" id="kendala"></ul><h2 style="margin-top:16px">Langkah berikutnya</h2><ol class="clean" id="next" style="padding-left:20px"></ol></div>
+  </div>
+
+  <section class="section">
+    <h2>Semua modul</h2>
+    <div class="filters" id="filters"></div>
+    <div class="mods" id="mods"></div>
+    <div class="legend"><span><b>Selesai di dev</b> = sudah dicoba langsung di lingkungan pengembangan, belum dipakai karyawan.</span><span><b>Cakupan perlu dipastikan</b> = belum diputuskan masuk v1 atau tidak.</span></div>
+  </section>
+
+  <section class="section">
+    <h2>Bukti tampilan</h2>
+    <p class="sub" style="margin:-4px 0 12px">Semua gambar memakai akun dan divisi contoh ("Demo M5"), bukan data karyawan. Foto versi lama (sebelum redesign) belum tersedia di laporan ini.</p>
+    <div class="gallery" id="gallery"></div>
+  </section>
+
+  <footer id="foot">Laporan ini diperbarui oleh agen pengembang saat bekerja — tidak realtime. Lihat waktu "Pembaruan terakhir" di atas.</footer>
+</div>
+<dialog id="zoom"><img alt=""></dialog>
+
+<script id="status" type="application/json">{"diperbarui":"2026-09-29T00:45:00+07:00","diperbaruiOleh":"Codex (publikasi laporan)","proyek":"Redesign OKR Tracker Jakmall","rilis":{"dirilis":false,"teks":"Redesign belum dirilis; production masih versi lama. Semua hasil di bawah baru berjalan di lingkungan pengembangan (dev) dengan data contoh."},"ringkasan":"Alur inti OKR baru sudah bisa dicoba dari awal sampai akhir di lingkungan pengembangan: Lead menyusun dan mengajukan target, C-level menyetujui, Lead membagikan OKR ke anggota, anggota mengonfirmasi dan mengisi progress mingguan, dan ada notifikasi di aplikasi. Yang tersisa sebelum rilis: memastikan cakupan v1 dan merilis ke production.","sedangDikerjakan":{"judul":"Publikasi dashboard progres","detail":"Publikasi laporan disetujui. Laporan terpisah dari aplikasi OKR; redesign aplikasi belum dirilis. Langkah pengembangan berikutnya adalah melanjutkan pemicu pengingat M5-D.","mulai":"2026-09-29"},"sudahBisa":["Lead menyusun target OKR divisi dan mengajukannya ke C-level.","C-level menyetujui target atau mengembalikannya dengan catatan; perubahan target setelah disetujui juga lewat persetujuan.","Lead membagikan OKR ke tiap anggota; pengiriman ditahan kalau ada anggota yang belum siap.","Anggota mengonfirmasi OKR-nya atau mengajukan perubahan; Lead menyetujui atau mengembalikan.","Anggota mengisi progress mingguan (tenggat Jumat 17.00 WIB); Lead memantau siapa yang sudah dan belum, serta bisa mengoreksi dengan alasan.","Notifikasi di aplikasi (desktop dan HP) untuk OKR dibagikan, usulan perubahan, keputusan, dan koreksi."],"persentase":{"disetujui":false,"catatan":"Bobot persentase belum disepakati. Sementara ditampilkan jumlah hasil yang sudah terverifikasi saja."},"hasil":[{"id":"m0","kode":"M0","nama":"Dashboard Quarter","manfaat":"Ringkasan capaian divisi per quarter: capaian per objective, capaian anggota, dan hal yang perlu perhatian.","kelompok":"v1","status":"selesai-dev","tanggal":"2026-09-04","bukti":[{"file":"bukti/lead-dashboard.png","ket":"Dashboard Quarter sisi Lead (data contoh)"}]},{"id":"m1","kode":"M1","nama":"Fondasi aplikasi","manfaat":"Menu dan istilah yang konsisten, akses sesuai peran (Lead, Anggota, C-level, Admin), keamanan data antar divisi, cetak PDF dan ekspor Excel.","kelompok":"v1","status":"selesai-dev","tanggal":"2026-09-08","bukti":[]},{"id":"m2-min","kode":"M2","nama":"Data organisasi — minimum yang dibutuhkan","manfaat":"Daftar divisi baku, penanggung jawab (Lead) dan approver per divisi, serta pemetaan data lama ke struktur baru.","kelompok":"v1","status":"selesai-dev","tanggal":"2026-09-08","catatan":"Sisa pekerjaan data organisasi dicatat terpisah di bawah.","bukti":[]},{"id":"m3a","kode":"M3-A","nama":"Susun target divisi","manfaat":"Lead membuat objective dan key result dengan pengecekan bobot dan kelengkapan sebelum diajukan.","kelompok":"v1","status":"selesai-dev","tanggal":"2026-09-09","bukti":[{"file":"bukti/lead-okr-divisi.png","ket":"OKR Divisi yang sudah disetujui (data contoh)"}]},{"id":"m3b","kode":"M3-B","nama":"Ajukan target ke C-level","manfaat":"Target dikirim ke approver yang ditetapkan per divisi, lalu terkunci selama diperiksa.","kelompok":"v1","status":"selesai-dev","tanggal":"2026-09-09","bukti":[]},{"id":"m4a","kode":"M4-A","nama":"Persetujuan C-level","manfaat":"C-level menyetujui target atau mengembalikannya dengan catatan wajib.","kelompok":"v1","status":"selesai-dev","tanggal":"2026-09-09","bukti":[]},{"id":"m4bc","kode":"M4-B/C","nama":"Ajukan perubahan target yang sudah disetujui","manfaat":"Target yang sudah jadi patokan hanya bisa diubah lewat persetujuan C-level, dengan tampilan versi lama dan baru. Progress anggota tidak hilang.","kelompok":"v1","status":"selesai-dev","tanggal":"2026-09-12","bukti":[]},{"id":"m5a","kode":"M5-A","nama":"Bagikan OKR ke anggota","manfaat":"Lead mengirim OKR individu ke anggota; pengiriman ditahan seluruhnya kalau ada penerima yang belum siap.","kelompok":"v1","status":"selesai-dev","tanggal":"2026-09-21","bukti":[{"file":"bukti/lead-distribusi.png","ket":"Distribusi sudah dikirim dan terkunci (data contoh)"}]},{"id":"m5b","kode":"M5-B","nama":"Konfirmasi atau ajukan perubahan oleh anggota","manfaat":"Anggota menyetujui OKR-nya atau mengusulkan perubahan (termasuk KR pribadi \"Lainnya\"); Lead memutuskan.","kelompok":"v1","status":"selesai-dev","tanggal":"2026-09-27","bukti":[{"file":"bukti/anggota-okr.png","ket":"OKR Individu sisi anggota (data contoh)"}]},{"id":"m5c","kode":"M5-C","nama":"Update progress mingguan","manfaat":"Anggota mengisi progress dan status tiap minggu; Lead memantau kelengkapan dan bisa mengoreksi dengan alasan yang tercatat.","kelompok":"v1","status":"selesai-dev","tanggal":"2026-09-28","catatan":"Laporan Bulanan dicatat sebagai hasil terpisah.","bukti":[{"file":"bukti/lead-workboard.png","ket":"Pemantauan update mingguan oleh Lead (data contoh)"}]},{"id":"rilis-v1","kode":"Rilis","nama":"Rilis redesign v1 ke production","manfaat":"Versi baru dipakai seluruh karyawan: backup data, pemindahan data bertahap, uji semua peran di production.","kelompok":"v1","status":"belum","catatan":"Butuh izin deploy dan rencana rilis yang direview.","bukti":[]},{"id":"m4d","kode":"M4-D","nama":"Menu Persetujuan 3 tab & \"Minta Buka Akses\"","manfaat":"Satu menu persetujuan (Target / Perubahan / Hasil Akhir) dan jalur resmi membuka kunci target setelah tenggat. Riwayat perubahan sudah ada.","kelompok":"v1","cakupan":"perlu-dipastikan","status":"belum","catatan":"Direncanakan sebelum v1 di jadwal 10 Sep, tetapi cakupan minimum v1 belum diputuskan.","bukti":[]},{"id":"m5d","kode":"M5-D","nama":"Notifikasi & pengingat","manfaat":"Lonceng notifikasi di aplikasi, email pendamping, dan pengingat update mingguan yang diatur Admin.","kelompok":"lengkap","status":"berjalan","catatan":"Sudah diuji di dev. Pengingat terjadwal siap diuji, belum aktif otomatis (butuh pemicu di server production).","bukti":[{"file":"bukti/lead-lonceng.png","ket":"Lonceng notifikasi Lead (data contoh)"},{"file":"bukti/anggota-hp-lonceng.png","ket":"Lonceng notifikasi di HP, sisi anggota (data contoh)"}]},{"id":"laporan-bulanan","kode":"Laporan","nama":"Laporan Bulanan","manfaat":"Ringkasan progress per bulan dari data mingguan, tanpa input ulang.","kelompok":"lengkap","status":"belum","catatan":"Menunggu 4 keputusan (siapa yang melihat, aturan minggu lintas bulan, format ekspor, letak menu).","bukti":[]},{"id":"m6a","kode":"M6-A","nama":"Ajukan hasil akhir quarter","manfaat":"Lead merangkum dan mengajukan hasil akhir quarter.","kelompok":"lengkap","status":"belum","bukti":[]},{"id":"m6b","kode":"M6-B","nama":"Finalisasi hasil oleh C-level","manfaat":"C-level menyetujui hasil akhir atau mengembalikannya dengan catatan.","kelompok":"lengkap","status":"belum","bukti":[]},{"id":"m6c","kode":"M6-C","nama":"Rekap tahunan","manfaat":"Capaian Q1–Q4 dalam satu tahun; skor tahunan dari quarter yang sudah final.","kelompok":"lengkap","status":"belum","bukti":[]},{"id":"m6d","kode":"M6-D","nama":"Laporan & ekspor untuk HR dan C-level","manfaat":"Tarikan progress mingguan HR, laporan per divisi/quarter, histori persetujuan dan perubahan.","kelompok":"lengkap","status":"belum","bukti":[]},{"id":"m6e","kode":"M6-E","nama":"Perapian & validasi akhir","manfaat":"Menyatukan rumus dan format angka, membersihkan sisa sistem lama, uji ulang seluruh peran.","kelompok":"lengkap","status":"belum","bukti":[]},{"id":"m2-sisa","kode":"M2","nama":"Data organisasi — sisa","manfaat":"Akun untuk seluruh peserta dan kerapian data lama yang belum terpetakan.","kelompok":"lengkap","status":"belum","bukti":[]}],"kendala":[{"judul":"Cakupan v1 belum pasti","detail":"Perlu diputuskan apakah menu Persetujuan 3 tab & \"Minta Buka Akses\" (M4-D) wajib sebelum rilis v1.","jenis":"keputusan"},{"judul":"Pengingat otomatis belum berjalan sendiri","detail":"Pengingat mingguan butuh pemicu terjadwal di server production. Rencana sudah ada; pembuatannya butuh izin deploy.","jenis":"izin"}],"keputusanDibutuhkan":["Apakah M4-D (menu Persetujuan 3 tab & \"Minta Buka Akses\") wajib untuk rilis v1?","Bobot perhitungan persentase progres (belum disepakati).","Laporan Bulanan: siapa yang melihat, minggu lintas bulan masuk bulan mana, perlu ekspor Excel/PDF, dan letak menunya.","Aturan pasti \"KR merah\" dan jadwal ringkasan pengingat (dari manajemen)."],"langkahBerikutnya":["Perbarui laporan publik setiap checkpoint, dengan bukti dan waktu pembaruan yang jelas.","Lanjut M5-D: pemicu pengingat otomatis (butuh izin deploy) dan perapian data uji.","Laporan Bulanan setelah keputusannya tersedia.","Susun rencana rilis v1 ke production untuk direview."]}</script>
+<script>
+const S = JSON.parse(document.getElementById("status").textContent);
+const $ = (id) => document.getElementById(id);
+const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const LABEL = { "selesai-dev": "Selesai di dev", berjalan: "Berjalan", belum: "Belum", terhambat: "Terhambat" };
+const ORDER = { berjalan: 0, terhambat: 1, "selesai-dev": 2, belum: 3 };
+
+const upd = new Date(S.diperbarui);
+$("proyek").textContent = S.proyek;
+$("updated").textContent = upd.toLocaleString("id-ID", { timeZone: "Asia/Jakarta", day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" }) + " WIB";
+$("by").textContent = "oleh " + S.diperbaruiOleh;
+const hours = (Date.now() - upd.getTime()) / 36e5;
+if (hours > 48) { $("stale").style.display = "block"; $("stale").textContent = `Belum diperbarui ${Math.floor(hours / 24)} hari — status mungkin sudah usang.`; }
+$("release").innerHTML = `<b>${S.rilis.dirilis ? "Sudah dirilis" : "Belum dirilis"}.</b> ${esc(S.rilis.teks)}`;
+$("ringkasan").textContent = S.ringkasan;
+
+const H = S.hasil;
+const v1 = H.filter((h) => h.kelompok === "v1" && !h.cakupan);
+const scope = H.filter((h) => h.cakupan);
+const done = (a) => a.filter((h) => h.status === "selesai-dev").length;
+$("k-v1").innerHTML = `${done(v1)} <small>/ ${v1.length} hasil</small>`;
+$("k-v1n").textContent = `hasil selesai di dev; rilis belum dilakukan.` + (scope.length ? ` ${scope.map(h => h.kode).join(", ")} belum masuk hitungan karena cakupan v1 belum diputuskan.` : "");
+$("k-all").innerHTML = `${done(H)} <small>/ ${H.length} hasil</small>`;
+$("k-alln").textContent = "semua hasil yang direncanakan, termasuk setelah v1";
+$("k-ask").textContent = S.keputusanDibutuhkan.length;
+const dots = (el, arr) => { el.innerHTML = arr.map((h) => `<span class="dot ${h.status}" title="${esc(h.kode + " · " + h.nama + " — " + LABEL[h.status])}"></span>`).join(""); };
+dots($("d-v1"), v1); dots($("d-all"), H);
+$("pct").textContent = S.persentase.disetujui ? "" : S.persentase.catatan;
+
+$("now-t").textContent = S.sedangDikerjakan.judul;
+$("now-d").textContent = S.sedangDikerjakan.detail;
+$("ask").innerHTML = S.keputusanDibutuhkan.map((k) => `<li>${esc(k)}</li>`).join("");
+$("bisa").innerHTML = S.sudahBisa.map((k) => `<li>${esc(k)}</li>`).join("");
+$("kendala").innerHTML = S.kendala.map((k) => `<li><b>${esc(k.judul)}.</b> ${esc(k.detail)}</li>`).join("") || "<li>Tidak ada.</li>";
+$("next").innerHTML = S.langkahBerikutnya.map((k) => `<li>${esc(k)}</li>`).join("");
+
+const FILTERS = [["semua", "Semua"], ["selesai-dev", "Selesai di dev"], ["berjalan", "Berjalan"], ["belum", "Belum"], ["terhambat", "Terhambat"], ["cakupan", "Cakupan perlu dipastikan"]];
+let current = "semua";
+function renderMods() {
+  const list = H.filter((h) => current === "semua" || (current === "cakupan" ? h.cakupan : h.status === current));
+  $("mods").innerHTML = list.map((h) => `
+    <details class="mod">
+      <summary>
+        <span class="code">${esc(h.kode)}</span>
+        <span class="mname">${esc(h.nama)}<small>${h.kelompok === "v1" ? "Target v1" : "Target lengkap"}${h.tanggal ? " · " + new Date(h.tanggal).toLocaleDateString("id-ID", { day: "numeric", month: "short" }) : ""}</small></span>
+        <span><span class="badge b-${h.status}">${LABEL[h.status]}</span>${h.cakupan ? '<span class="badge b-scope">Cakupan perlu dipastikan</span>' : ""}</span>
+      </summary>
+      <div class="mbody">
+        <p>${esc(h.manfaat)}</p>
+        ${h.catatan ? `<p><i>${esc(h.catatan)}</i></p>` : ""}
+        ${h.bukti.length ? `<div class="shots">${h.bukti.map((b) => `<figure><img src="${esc(b.file)}" alt="${esc(b.ket)}" loading="lazy"><figcaption>${esc(b.ket)}</figcaption></figure>`).join("")}</div>` : ""}
+      </div>
+    </details>`).join("") || `<p class="sub">Tidak ada modul di kategori ini.</p>`;
+}
+$("filters").innerHTML = FILTERS.map(([k, t]) => {
+  const n = k === "semua" ? H.length : H.filter((h) => (k === "cakupan" ? h.cakupan : h.status === k)).length;
+  return `<button data-k="${k}" aria-pressed="${k === current}">${t} (${n})</button>`;
+}).join("");
+$("filters").addEventListener("click", (e) => {
+  const b = e.target.closest("button"); if (!b) return;
+  current = b.dataset.k;
+  for (const x of $("filters").children) x.setAttribute("aria-pressed", String(x === b));
+  renderMods();
+});
+renderMods();
+
+$("gallery").innerHTML = H.flatMap((h) => h.bukti.map((b) => `<figure><img src="${esc(b.file)}" alt="${esc(b.ket)}" loading="lazy"><figcaption><b>${esc(h.kode)}</b> · ${esc(b.ket)}</figcaption></figure>`)).join("");
+document.addEventListener("click", (e) => {
+  const img = e.target.closest("img"); if (!img || img.closest("dialog")) { if (e.target.closest("dialog")) $("zoom").close(); return; }
+  $("zoom").querySelector("img").src = img.src; $("zoom").showModal();
+});
+</script>
+</body>
+</html>
