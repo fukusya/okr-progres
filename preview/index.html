@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Preview interaktif · OKR Jakmall</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#17212f;background:#f3f6fa}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer}a{color:#1d4ed8}.wrap{max-width:1200px;margin:auto;padding:22px 18px 60px}.top{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}.back{font-weight:650;text-decoration:none}.eyebrow{font-size:12px;color:#64748b;font-weight:800;letter-spacing:.08em;text-transform:uppercase}h1{margin:4px 0;font-size:28px}p{line-height:1.5}.notice{border-left:4px solid #ca8a04;background:#fffbeb;padding:12px 15px;border-radius:10px;color:#713f12;margin:18px 0}.shell{display:grid;grid-template-columns:245px minmax(0,1fr);gap:18px}.nav,.panel,.picture{background:#fff;border:1px solid #dce3eb;border-radius:15px}.nav{padding:15px;align-self:start}.nav h2{font-size:14px;margin:0 0 10px}.nav button{display:block;width:100%;text-align:left;border:0;background:transparent;border-radius:8px;padding:10px;margin:2px 0;color:#334155}.nav button.active{background:#dbeafe;color:#1e40af;font-weight:750}.content{min-width:0}.panel{padding:20px;margin-bottom:16px}.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.badge{border-radius:100px;padding:5px 10px;background:#e0f2fe;color:#075985;font-size:12px;font-weight:700}.hint{color:#64748b;font-size:14px}.metric{font-weight:750;font-size:29px;margin:8px 0}.steps{display:flex;gap:9px;flex-wrap:wrap;margin:16px 0}.steps button,.primary,.secondary{border-radius:9px;padding:9px 13px;border:1px solid #93c5fd;background:#eff6ff;color:#1d4ed8;font-weight:700}.steps button.active,.primary{background:#1d4ed8;color:white;border-color:#1d4ed8}.steps button:disabled{opacity:.45;cursor:not-allowed}.secondary{background:#fff;border-color:#cbd5e1;color:#334155}.feedback{background:#f0fdf4;border:1px solid #bbf7d0;color:#166534;border-radius:9px;padding:11px 13px;min-height:46px}.demo-box{border:1px solid #dce3eb;border-radius:12px;padding:16px;margin-top:15px;background:#f8fafc}.demo-box h3{margin:0 0 10px;font-size:16px}.kv{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid #e2e8f0}.kv:last-child{border:0}.kv strong{font-variant-numeric:tabular-nums}.inputs{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.inputs input,.inputs select{max-width:170px;padding:8px;border:1px solid #cbd5e1;border-radius:8px;background:white}.picture{padding:17px}.picture h2{font-size:17px;margin:0 0 4px}.picture img{width:100%;height:auto;border:1px solid #e2e8f0;border-radius:9px;margin-top:10px}.tiny{font-size:12px;color:#64748b}.flow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.flow button{border:0;background:transparent;color:#1d4ed8;text-decoration:underline;padding:0}footer{margin-top:22px;color:#64748b;font-size:13px}@media(max-width:800px){.shell{grid-template-columns:1fr}.nav{display:flex;overflow-x:auto;gap:5px}.nav h2{display:none}.nav button{min-width:max-content}.wrap{padding:15px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><div><div class="eyebrow">Simulasi interaktif · data contoh</div><h1 id="title">Preview OKR</h1><div class="hint" id="subtitle"></div></div><a class="back" href="../">← Kembali ke laporan progres</a></div>
+  <div class="notice"><b>Preview simulasi.</b> Tombol di halaman ini memperagakan alur. Tidak ada akun, penyimpanan, atau koneksi ke database OKR. Aplikasi yang dipakai karyawan belum online.</div>
+  <div class="shell"><nav class="nav" id="nav"><h2>Pilih tampilan</h2></nav><main class="content"><section class="panel"><div class="row"><div><div class="eyebrow" id="module"></div><div class="metric" id="headline"></div></div><span class="badge" id="role"></span></div><p id="description"></p><div class="steps" id="steps"></div><div class="feedback" id="feedback" role="status" aria-live="polite"></div><div class="demo-box" id="demo"></div></section><section class="picture"><h2>Bukti tampilan dari aplikasi dev</h2><div class="hint" id="caption"></div><img id="shot" alt="Bukti tampilan akun contoh"><p class="tiny">Gambar adalah bukti dari lingkungan pengembangan. Interaksi simulasi ada pada panel di atas.</p></section></main></div>
+  <footer>Halaman ini memuat data contoh di browser saja. Tutup atau muat ulang untuk mengulang simulasi.</footer>
+</div>
+<script>
+const views = [
+  {id: "lead-dashboard", label: "Dashboard Lead", code: "M0", role: "Lead · Demo M5", headline: "Capaian divisi Q4", caption: "Dashboard Quarter sisi Lead", shot: "lead-dashboard.png", description: "Pilih quarter untuk melihat ringkasan divisi dan hal yang perlu diperhatikan.", steps: ["Q4 2026", "Q3 2026"], feedback: ["Ringkasan Q4: 2 objective, 3 anggota, pembaruan mingguan terlihat.", "Quarter ini belum punya hasil final dalam simulasi."], demo: ["Objective aktif", "2", "Anggota", "3", "Update pekan ini", "3 dari 3 KR wajib"]},
+  {id: "lead-okr-divisi", label: "Target divisi", code: "M3–M4", role: "Lead · Demo M5", headline: "Target Q4 2026", caption: "OKR Divisi sisi Lead", shot: "lead-okr-divisi.png", description: "Lihat perbedaan draft, pengajuan, dan persetujuan. Ini hanya simulasi status.", steps: ["Draft", "Ajukan Target", "Disetujui"], feedback: ["Draft bisa diperiksa sebelum diajukan.", "Target diajukan: kolom terkunci sambil menunggu C-level.", "Target disetujui: patokan resmi terkunci."], demo: ["Objective", "Peningkatan layanan", "Key Result", "Respons tepat waktu", "Bobot", "100%"]},
+  {id: "lead-distribusi", label: "Distribusi anggota", code: "M5-A", role: "Lead · Demo M5", headline: "Bagikan OKR ke anggota", caption: "Distribusi anggota sisi Lead", shot: "lead-distribusi.png", description: "Coba gerbang kesiapan: pengiriman ditahan jika seorang anggota belum siap masuk aplikasi.", steps: ["Ada yang belum siap", "Semua siap", "Kirim ke Anggota"], feedback: ["Pengiriman ditahan seluruhnya. Satu anggota belum punya akses aktif.", "Semua penerima siap dan bobot individu 100%.", "Paket dibagikan bersama dan tampilan Lead terkunci."], demo: ["Anggota contoh", "Budi, Sari", "Paket", "1 pengiriman bersama", "Status", "Menunggu kesiapan"]},
+  {id: "anggota-okr", label: "OKR anggota", code: "M5-B", role: "Anggota · Demo M5", headline: "OKR Individu Q4", caption: "OKR Individu sisi anggota", shot: "anggota-okr.png", description: "Lihat alur menerima paket, mengonfirmasi, atau mengusulkan perubahan.", steps: ["Belum dibagikan", "Dibagikan", "Konfirmasi", "Ajukan Perubahan"], feedback: ["OKR belum dibagikan oleh Lead.", "Paket OKR tersedia untuk dibaca anggota.", "Anggota mengonfirmasi paket OKR.", "Usulan perubahan dikirim ke Lead untuk diperiksa."], demo: ["Key Result", "Respons layanan", "Target", "100%", "Bagian individu", "Dalam bobot 100%"]},
+  {id: "lead-workboard", label: "Progress mingguan", code: "M5-C", role: "Lead · Demo M5", headline: "Update pekan ini", caption: "Workboard sisi Lead", shot: "lead-workboard.png", description: "Pilih anggota untuk melihat status, lalu coba koreksi dengan alasan. Nilai pada preview hanya berubah di browser ini.", steps: ["Budi · sesuai rencana", "Sari · berisiko", "Koreksi dengan alasan"], feedback: ["Budi: 3 dari 3 KR wajib sudah diupdate.", "Sari: satu KR berisiko; Lead bisa melihat catatannya.", "Koreksi dicatat dengan alasan dan ditunjukkan kepada anggota."], demo: ["Kelengkapan", "3 dari 3 KR wajib", "Perlu perhatian", "1 status berisiko", "Batas rutin", "Jumat 17.00 WIB"]},
+  {id: "lead-lonceng", label: "Notifikasi Lead", code: "M5-D", role: "Lead · Demo M5", headline: "Pemberitahuan", caption: "Lonceng notifikasi sisi Lead", shot: "lead-lonceng.png", description: "Buka contoh notifikasi dan lihat ke mana Lead diarahkan.", steps: ["Belum dibaca (1)", "Buka usulan anggota", "Sudah dibaca"], feedback: ["Ada satu usulan perubahan dari anggota.", "Usulan anggota terbuka untuk ditinjau Lead.", "Penanda belum dibaca hilang setelah dibuka."], demo: ["Dari", "Sari · anggota", "Kejadian", "Usulan perubahan OKR", "Tujuan", "Halaman keputusan Lead"]},
+  {id: "anggota-hp-lonceng", label: "Notifikasi HP", code: "M5-D", role: "Anggota · Demo M5", headline: "Pemberitahuan di HP", caption: "Lonceng notifikasi sisi anggota di HP", shot: "anggota-hp-lonceng.png", description: "Coba alur koreksi Lead diterima oleh anggota melalui notifikasi.", steps: ["Belum dibaca (1)", "Buka koreksi", "Sudah dibaca"], feedback: ["Koreksi Lead muncul sebagai notifikasi belum dibaca.", "Anggota melihat angka dan alasan koreksi di OKR Individu.", "Penanda notifikasi hilang setelah dibuka."], demo: ["Dari", "Lead · Demo M5", "Kejadian", "Koreksi progress", "Alasan", "Tercatat dalam histori"]}
+];
+const $ = id => document.getElementById(id);
+const esc = value => String(value).replace(/[&<>\"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let current = views.find(v => v.id === new URLSearchParams(location.search).get("view")) || views[0];
+let step = 0;
+function render() {
+  document.title = current.label + " · Preview OKR";
+  $("title").textContent = current.label;
+  $("subtitle").textContent = "Coba alur dengan data contoh · pilih tampilan lain di menu";
+  $("module").textContent = current.code;
+  $("headline").textContent = current.headline;
+  $("role").textContent = current.role;
+  $("description").textContent = current.description;
+  $("feedback").textContent = current.feedback[step];
+  $("caption").textContent = current.caption;
+  $("shot").src = "../bukti/" + current.shot;
+  $("shot").alt = current.caption + " (data contoh)";
+  $("nav").innerHTML = "<h2>Pilih tampilan</h2>" + views.map(v => `<button type="button" data-view="${v.id}" class="${v.id === current.id ? 'active' : ''}" ${v.id === current.id ? 'aria-current="page"' : ''}>${esc(v.label)}</button>`).join("");
+  $("steps").innerHTML = current.steps.map((label,i) => `<button type="button" data-step="${i}" class="${i === step ? 'active' : ''}" aria-pressed="${i === step}">${esc(label)}</button>`).join("");
+  $("demo").innerHTML = `<h3>Contoh data pada alur ini</h3>` + Array.from({length:current.demo.length/2},(_,i)=>`<div class="kv"><span>${esc(current.demo[2*i])}</span><strong>${esc(current.demo[2*i+1])}</strong></div>`).join("");
+}
+$("nav").addEventListener("click", event => { const button=event.target.closest("[data-view]"); if(!button)return; current=views.find(v=>v.id===button.dataset.view); step=0; history.replaceState(null,"","?view="+current.id); render(); });
+$("steps").addEventListener("click", event => { const button=event.target.closest("[data-step]"); if(!button)return; step=Number(button.dataset.step); render(); });
+window.addEventListener("popstate", () => { current=views.find(v=>v.id===new URLSearchParams(location.search).get("view"))||views[0]; step=0; render(); });
+render();
+</script>
+</body>
+</html>
