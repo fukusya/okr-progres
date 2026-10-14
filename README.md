@@ -5,3 +5,5 @@
 Laporan progres untuk user dan atasan, bahasa non-teknis. Berisi ringkasan modul yang sudah/belum selesai, kendala, keputusan yang dibutuhkan, dan bukti tampilan (screenshot data contoh). Diperbarui oleh agen yang mengerjakan checkpoint, bukan realtime — lihat waktu "Pembaruan terakhir" di halaman.
 
 Repo ini adalah hasil build (`index.html` + folder `bukti/`), bukan sumbernya. Isinya tidak berisi data karyawan asli, kredensial, atau detail infrastruktur.
+
+**Kontribusi pendamping:** https://fukusya.github.io/okr-progres/kontributor/ — pekerjaan sampingan di luar roadmap utama (folder `kontributor/`). Dikelola terpisah: build laporan utama tidak menimpa folder ini, dan halaman ini tidak mengubah persentase progres.

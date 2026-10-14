@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Kontribusi Pendamping</title>
+<style>
+:root {
+  --bg: #f6f7f9; --card: #ffffff; --ink: #14181f; --muted: #5d6675; --faint: #8b93a1; --line: #e3e6eb;
+  --accent: #b45309; --accent-soft: #fef3c7;
+  --ok: #15803d; --ok-soft: #dcfce7; --run: #1d4ed8; --run-soft: #dbeafe;
+  --todo: #525c6b; --todo-soft: #eef0f3; --block: #b91c1c; --block-soft: #fee2e2;
+  --ask: #7c3aed; --ask-soft: #ede9fe;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1216; --card: #171b21; --ink: #e8ebf0; --muted: #a3acba; --faint: #7a8494; --line: #2a303a;
+    --accent: #f59e0b; --accent-soft: #3a2a0c;
+    --ok: #4ade80; --ok-soft: #12301d; --run: #7aa7ff; --run-soft: #172745;
+    --todo: #b3bcc9; --todo-soft: #232933; --block: #f87171; --block-soft: #3a1717;
+    --ask: #b79cff; --ask-soft: #2a2145;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1216; --card: #171b21; --ink: #e8ebf0; --muted: #a3acba; --faint: #7a8494; --line: #2a303a;
+  --accent: #f59e0b; --accent-soft: #3a2a0c;
+  --ok: #4ade80; --ok-soft: #12301d; --run: #7aa7ff; --run-soft: #172745;
+  --todo: #b3bcc9; --todo-soft: #232933; --block: #f87171; --block-soft: #3a1717;
+  --ask: #b79cff; --ask-soft: #2a2145;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+.wrap { max-width: 1040px; margin: 0 auto; padding: 28px 16px 64px; }
+a { color: var(--run); }
+.back { display: inline-block; font-size: 13.5px; font-weight: 650; text-decoration: none; margin-bottom: 14px; }
+.back:hover, .back:focus-visible { text-decoration: underline; }
+header.top { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; justify-content: space-between; margin-bottom: 18px; }
+h1 { font-size: 26px; line-height: 1.2; margin: 0; letter-spacing: -0.01em; }
+.sub { color: var(--muted); margin: 4px 0 0; }
+.updated { font-size: 13px; color: var(--muted); text-align: right; }
+.updated b { color: var(--ink); }
+.release { border: 1px solid var(--line); background: var(--card); border-left: 4px solid var(--accent); border-radius: 12px; padding: 12px 16px; margin-bottom: 18px; }
+.release b { color: var(--accent); }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 18px; }
+.kpi .label { font-size: 12.5px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+.kpi .num { font-size: 30px; font-weight: 750; margin: 4px 0 2px; font-variant-numeric: tabular-nums; }
+.kpi .note { font-size: 13px; color: var(--muted); }
+h2 { font-size: 17px; margin: 0 0 10px; }
+.section { margin: 26px 0 0; }
+.mods { display: grid; gap: 8px; }
+details.mod { background: var(--card); border: 1px solid var(--line); border-radius: 12px; }
+details.mod summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 70px 1fr auto; gap: 12px; align-items: center; padding: 12px 16px; }
+details.mod summary::-webkit-details-marker { display: none; }
+.code { font-size: 12px; font-weight: 700; color: var(--faint); }
+.mname { font-weight: 650; }
+.mname small { display: block; font-weight: 400; color: var(--muted); font-size: 13px; }
+.badge { font-size: 12px; font-weight: 650; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
+.b-ok { background: var(--ok-soft); color: var(--ok); }
+.b-run { background: var(--run-soft); color: var(--run); }
+.b-todo { background: var(--todo-soft); color: var(--todo); }
+.b-bug { background: var(--block-soft); color: var(--block); }
+.b-ask { background: var(--ask-soft); color: var(--ask); }
+.mbody { padding: 0 16px 16px 98px; color: var(--muted); font-size: 14px; }
+.mbody p { margin: 0 0 6px; }
+.mbody ul { margin: 4px 0 8px; padding-left: 20px; }
+.mbody b { color: var(--ink); }
+ul.clean { margin: 0; padding-left: 20px; }
+ul.clean li { margin: 6px 0; }
+ul.clean li small { display: block; color: var(--muted); font-size: 13px; }
+.tag { font-size: 11.5px; font-weight: 700; padding: 1px 8px; border-radius: 999px; margin-right: 6px; vertical-align: 1px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+footer { margin-top: 36px; font-size: 12.5px; color: var(--faint); border-top: 1px solid var(--line); padding-top: 14px; }
+@media (max-width: 760px) {
+  .grid3, .two { grid-template-columns: 1fr; }
+  details.mod summary { grid-template-columns: 1fr auto; }
+  .code { display: none; }
+  .mbody { padding: 0 16px 16px; }
+  .updated { text-align: left; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../">← Kembali ke laporan progres utama</a>
+
+  <header class="top">
+    <div>
+      <h1>Kontribusi Pendamping</h1>
+      <p class="sub">Pekerjaan sampingan oleh kontributor pendamping (Reza) · bahasa non-teknis</p>
+    </div>
+    <div class="updated">Pembaruan terakhir: <b>Rabu, 14 Oktober 2026, 16.10 WIB</b><br>oleh Reza (dibantu Claude) · tidak realtime</div>
+  </header>
+
+  <div class="release">
+    <b>Terpisah dari roadmap utama.</b> Halaman ini mencatat bantuan di luar daftar modul M0–M6. Isinya <b>tidak mengubah</b> persentase progres di laporan utama (tetap 15/20) dan tidak menggeser prioritas pemilik proyek. Belum ada yang dirilis ke production; production masih versi lama.
+  </div>
+
+  <section class="section">
+    <h2>Pembaruan</h2>
+    <div class="mods">
+
+      <details class="mod" open>
+        <summary><span class="code">K-1</span><span class="mname">Menjalankan aplikasi di laptop dengan Docker<small>14 Okt 2026 · cukup satu perintah, tanpa memasang Node atau menyalin pengaturan rahasia</small></span><span class="badge b-ok">Digabung</span></summary>
+        <div class="mbody">
+          <p><b>Manfaat:</b> siapa pun yang membantu (developer, QA) bisa menjalankan aplikasi OKR di laptopnya sendiri dalam beberapa menit.</p>
+          <ul>
+            <li>Memakai <b>database lokal sendiri</b> berisi data contoh fiktif (akun <code>@demo.example.test</code>). Database pengembangan bersama dan database production <b>tidak tersentuh sama sekali</b>, jadi pengujian tidak mengganggu data uji pemilik proyek.</li>
+            <li>Data contoh diisi otomatis saat pertama kali dijalankan; bisa dikosongkan dan diisi ulang kapan saja.</li>
+            <li>Hanya untuk laptop. Tidak dipakai hosting/Vercel dan tidak mengubah cara kerja aplikasi.</li>
+          </ul>
+          <p><b>Cara menjalankan:</b> pasang Docker Desktop, buka folder aplikasi, jalankan <code>docker compose up -d</code>, lalu buka <code>http://localhost:4000</code>. Panduan lengkap ada di <code>docker/README.md</code> di repo aplikasi.</p>
+          <p><b>Status:</b> digabung ke branch <code>redesign/dashboard-divisi</code> lewat pull request #2 (14 Okt). Dicoba langsung: aplikasi terbuka, ganti peran Lead/Anggota/Admin/C-level berjalan.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <footer>Halaman kontributor pendamping — dikelola terpisah dari laporan utama dan tidak ditimpa saat laporan utama diperbarui. Tidak berisi data karyawan asli, kredensial, atau detail infrastruktur.</footer>
+</div>
+</body>
+</html>
